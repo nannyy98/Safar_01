@@ -1,0 +1,1 @@
+<!doctype html><meta charset='utf-8'><h1>Оплата Payme</h1><p>Заказ №{{ order.id }} — {{ amount }}</p><form action='https://payme.uz' method='POST'><input type='hidden' name='merchant_id' value='{{ payme_merchant_id }}'><input type='hidden' name='amount' value='{{ amount }}'><input type='hidden' name='order_id' value='{{ order.id }}'><button>Оплатить Payme</button></form>
