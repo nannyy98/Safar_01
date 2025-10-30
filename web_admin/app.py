@@ -3,7 +3,31 @@
 """
 import logging
 
-import os
+# --- FIX PYTHONPATH & SAFE IMPORT for Render ---
+import os, sys
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(CURRENT_DIR)
+
+# возможные места, где у тебя лежит bot_integration.py
+CANDIDATES = [
+    REPO_ROOT,
+    os.path.join(REPO_ROOT, "project"),
+]
+
+for p in CANDIDATES:
+    if os.path.exists(os.path.join(p, "bot_integration.py")) and p not in sys.path:
+        sys.path.insert(0, p)
+
+try:
+    from bot_integration import TelegramBotIntegration
+except Exception:
+    # безопасная заглушка, чтобы админка работала даже без интеграции
+    class TelegramBotIntegration:
+        def __init__(self, *a, **kw): pass
+        def notify_admins(self, *a, **kw): pass
+# --- end FIX ---
+
+
 import sys
 import uuid
 from datetime import datetime, timedelta
